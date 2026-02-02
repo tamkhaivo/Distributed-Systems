@@ -25,8 +25,14 @@ public class Client {
         int port = 8080;
         String hostname = "127.0.0.1";
         String message = "Hello, Server!";
-        int clientNumber = 1; // Requirement #2: Client number generation
+        final int numberOfClients = 100;
 
+        for (int clientNumber = 1; clientNumber <= numberOfClients; clientNumber++) {
+            sendClientNumber(clientNumber, hostname, port, message);
+        }
+    }
+
+    public static void sendClientNumber(int clientNumber, String hostname, int port, String message) {
         try (Socket socket = new Socket(hostname, port)) {
             // Setup IO streams
             PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
@@ -37,24 +43,18 @@ public class Client {
             output.println(clientMessage);
             System.out.println("Sent: " + clientMessage);
 
-            // Requirement #2: Receive and display
+            // Requirement #3: Receive and display
             String response = input.readLine();
             System.out.println("Received from Server: " + response);
 
-            // Requirement #2: Connection closes automatically via try-with-resources
+            // Requirement #4: Connection closes automatically via try-with-resources
         } catch (UnknownHostException e) {
             System.err.println("Server not found: " + e.getMessage());
         } catch (IOException e) {
             System.err.println("I/O Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Generic Error: " + e.getMessage());
         }
     }
-}
 
-/*
- * Bash Code used to test multiple clients
- * 
- * for (( i = 1; i <= 100; i++ )); do
- * java Client
- * done
- * 
- */
+}

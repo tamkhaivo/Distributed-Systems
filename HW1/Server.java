@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
     3. Send back original message with timestamp to the client.
     4. Connection closes automatically
     5. Must handle more than one client
-    6. Must handle common errors
+    6. Must handle common errors 
 
 */
 public class Server {
@@ -35,10 +35,17 @@ public class Server {
             }
         } catch (IOException e) {
             System.err.println("Server Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Server Error: " + e.getMessage());
         }
     }
 }
 
+/*
+ * ClientHandler
+ * Requirement #5: Extends Thread to handle multiple clients
+ * Requirement #6: Must handle common errors when processing client requests
+ */
 class ClientHandler extends Thread {
     private Socket _socket;
 
@@ -51,20 +58,25 @@ class ClientHandler extends Thread {
                 PrintWriter output = new PrintWriter(_socket.getOutputStream(), true)) {
             String clientMessage = input.readLine();
             if (clientMessage != null) {
-                // Process message: Add timestamp (Requirement #1)
+                // Requirement #1: Process message: Add timestamp
                 String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 String response = "[Server Received at " + timestamp + "] " + clientMessage;
 
-                // Send back to client (Requirement #2)
+                // Requirement #2: Send back to client
                 output.println(response);
             }
         } catch (IOException e) {
-            System.err.println("Error handling client: " + e.getMessage());
+            System.err.println("I/O Error handling client: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Generic Error handling client: " + e.getMessage());
         } finally {
             try {
-                _socket.close(); // Ensure connection is closed
+                // Requirement #4: Connection closes automatically
+                _socket.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("I/O Error closing socket: " + e.getMessage());
+            } catch (Exception e) {
+                System.err.println("Generic Error closing socket: " + e.getMessage());
             }
         }
     }
