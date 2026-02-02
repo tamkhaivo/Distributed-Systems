@@ -1,0 +1,30 @@
+# Maven
+target/
+*.log
+*.war
+*.ear
+*.tar.gz
+*.rar
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# VS Code
+.vscode/
+
+# Java
+*.class
+*.jar
+
+# Mac OS
+.DS_Store

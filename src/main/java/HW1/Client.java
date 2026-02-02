@@ -34,27 +34,26 @@ public class Client {
 
     public static void sendClientNumber(int clientNumber, String hostname, int port, String message) {
         try (Socket socket = new Socket(hostname, port)) {
-            // Setup IO streams
-            PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-            // Requirement #2: Send message with Client number
-            String clientMessage = "Client #" + clientNumber + ": " + message;
-            output.println(clientMessage);
-            System.out.println("Sent: " + clientMessage);
-
-            // Requirement #3: Receive and display
-            String response = input.readLine();
-            System.out.println("Received from Server: " + response);
-
-            // Requirement #4: Connection closes automatically via try-with-resources
+            processServerCommunication(socket, clientNumber, message);
         } catch (UnknownHostException e) {
             System.err.println("Server not found: " + e.getMessage());
         } catch (IOException e) {
             System.err.println("I/O Error: " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Generic Error: " + e.getMessage());
         }
     }
 
+    public static void processServerCommunication(Socket socket, int clientNumber, String message) throws IOException {
+        // Setup IO streams
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+        // Requirement #2: Send message with Client number
+        String clientMessage = "Client #" + clientNumber + ": " + message;
+        output.println(clientMessage);
+        System.out.println("Sent: " + clientMessage);
+
+        // Requirement #3: Receive and display
+        String response = input.readLine();
+        System.out.println("Received from Server: " + response);
+    }
 }
