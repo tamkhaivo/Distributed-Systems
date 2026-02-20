@@ -1,14 +1,18 @@
-package HW1;
+package HW2;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /*
     Tam Vo
     CSC 258 - Distributed Systems
-    HW1 - Client-Server Application
+    HW2 - Client-Server Application
 
     Server.java Class that creates a socket connection to the client 
     and sends a message to the client.
@@ -62,8 +66,14 @@ class ClientHandler extends Thread {
                 String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 String response = "[Server Received at " + timestamp + "] " + clientMessage;
 
-                // Requirement #2: Send back to client
-                output.println(response);
+                // Wait for 1 second
+                try {
+                    Thread.sleep(1000);
+                    // Requirement #2: Send back to client
+                    output.println(response);
+                } catch (InterruptedException e) {
+                    System.err.println("Server Error: " + e.getMessage());
+                }
             }
         } catch (IOException e) {
             System.err.println("I/O Error handling client: " + e.getMessage());

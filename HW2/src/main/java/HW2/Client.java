@@ -1,12 +1,16 @@
-package HW1;
+package HW2;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 /*
     Tam Vo
     CSC 258 - Distributed Systems
-    HW1 - Client-Server Application
+    HW2 - Client-Server Application
 
     Client.java Class that creates a socket connection to the server 
     and sends a message to the server.
@@ -17,7 +21,6 @@ import java.net.*;
     3. Receive and display message from server
     4. Connection closes automatically via try-with-resources
     5. Must handle common errors
-
     
 */
 public class Client {

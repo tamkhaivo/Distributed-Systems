@@ -1,0 +1,8 @@
+# syntax=docker/dockerfile:1
+FROM maven:latest
+WORKDIR /src
+COPY pom.xml pom.xml
+RUN mvn clean install
+EXPOSE 8080
+COPY src/main/java/HW2 ./src/main/java/HW2
+CMD ["mvn", "compile", "exec:java", "-Dexec.mainClass=HW2.Server"]
