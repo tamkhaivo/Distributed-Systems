@@ -1,5 +1,15 @@
 services:
   server:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.server
     ports:
       - "8080:8080"
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    environment:
+      - SERVER_HOST=server
+    depends_on:
+      - server

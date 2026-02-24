@@ -26,13 +26,19 @@ import java.net.UnknownHostException;
 public class Client {
     public static void main(String[] args) {
         int port = 8080;
-        String hostname = "127.0.0.1";
+        String hostname = System.getenv("SERVER_HOST");
+        String clientIdEnv = System.getenv("CLIENT_ID");
         String message = "Hello, Server!";
-        final int numberOfClients = 100;
 
-        for (int clientNumber = 1; clientNumber <= numberOfClients; clientNumber++) {
-            sendClientNumber(clientNumber, hostname, port, message);
+        if (hostname == null || hostname.isEmpty()) {
+            hostname = "127.0.0.1";
         }
+        if (clientIdEnv == null || clientIdEnv.isEmpty()) {
+            clientIdEnv = "1";
+        }
+
+        int clientNumber = Integer.parseInt(clientIdEnv);
+        sendClientNumber(clientNumber, hostname, port, message);
     }
 
     public static void sendClientNumber(int clientNumber, String hostname, int port, String message) {

@@ -66,14 +66,8 @@ class ClientHandler extends Thread {
                 String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 String response = "[Server Received at " + timestamp + "] " + clientMessage;
 
-                // Wait for 1 second
-                try {
-                    Thread.sleep(1000);
-                    // Requirement #2: Send back to client
-                    output.println(response);
-                } catch (InterruptedException e) {
-                    System.err.println("Server Error: " + e.getMessage());
-                }
+                // Requirement #2: Send back to client
+                output.println(response);
             }
         } catch (IOException e) {
             System.err.println("I/O Error handling client: " + e.getMessage());
