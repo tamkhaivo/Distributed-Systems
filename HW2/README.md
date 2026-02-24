@@ -35,12 +35,6 @@ In the first terminal window, make sure you are in the `HW2` directory and start
 docker compose up server
 ```
 
-**Option B: Using Maven**
-Alternatively, run the server natively down to the command line:
-```bash
-mvn compile exec:java -Dexec.mainClass="HW2.Server"
-```
-
 You should see an output indicating the server has started on port 8080. The server will now hang and wait to accept incoming connections.
 
 ### Step 2: Start the Client
@@ -52,11 +46,5 @@ If you used Docker Compose for the server, you can dynamically spin up multiple 
 docker compose up --scale client=10 client
 ```
 This will automatically launch the specified number of isolated client containers, generating traffic to the server.
-
-**Option B: Using Maven**
-Alternatively, if you are running the server natively via Maven (or running mapped via Docker), you can run a single looped client via command line:
-```bash
-mvn compile exec:java -Dexec.mainClass="HW2.Client"
-```
 
 In either option, each Client process will establish a connection to the server and send **1** request. You will see connection indicators in the `Server` terminal, and the exchanged messages in both the `Server` and `Client` terminals. (Scaling the Docker compose will spawn 10 concurrent Client process containers simultaneously).
