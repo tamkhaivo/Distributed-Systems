@@ -48,7 +48,7 @@ public class ClientServerTests {
         when(mockSocket.getOutputStream()).thenReturn(clientOutput);
 
         // Act
-        Client.processServerCommunication(mockSocket, 1, "Test Message");
+        Client.processServerCommunication(mockSocket, 1, "Test Message", false);
 
         // Assert
         // Verify Client sent the correct message
@@ -67,7 +67,7 @@ public class ClientServerTests {
 
         // Act & Assert
         assertThrows(IOException.class, () -> {
-            Client.processServerCommunication(mockSocket, 1, "Test Message");
+            Client.processServerCommunication(mockSocket, 1, "Test Message", false);
         });
     }
 

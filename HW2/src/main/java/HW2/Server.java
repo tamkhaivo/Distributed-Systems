@@ -60,8 +60,8 @@ class ClientHandler extends Thread {
     public void run() {
         try (BufferedReader input = new BufferedReader(new InputStreamReader(_socket.getInputStream()));
                 PrintWriter output = new PrintWriter(_socket.getOutputStream(), true)) {
-            String clientMessage = input.readLine();
-            if (clientMessage != null) {
+            String clientMessage;
+            while ((clientMessage = input.readLine()) != null) {
                 // Requirement #1: Process message: Add timestamp
                 String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 String response = "[Server Received at " + timestamp + "] " + clientMessage;

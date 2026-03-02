@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
+import java.util.Random;
 
 /*
     Tam Vo
@@ -24,26 +26,29 @@ import java.net.UnknownHostException;
     
 */
 public class Client {
+    static final int MAX_MESSAGES = 100;
+
     public static void main(String[] args) {
         int port = 8080;
         String hostname = System.getenv("SERVER_HOST");
         String clientIdEnv = System.getenv("CLIENT_ID");
         String message = "Hello, Server!";
+        Random random = new Random();
 
         if (hostname == null || hostname.isEmpty()) {
             hostname = "127.0.0.1";
         }
         if (clientIdEnv == null || clientIdEnv.isEmpty()) {
-            clientIdEnv = "1";
+            clientIdEnv = Integer.toString(random.nextInt(1, 100));
         }
 
         int clientNumber = Integer.parseInt(clientIdEnv);
-        sendClientNumber(clientNumber, hostname, port, message);
+        sendMessages(clientNumber, hostname, port, message);
     }
 
-    public static void sendClientNumber(int clientNumber, String hostname, int port, String message) {
+    public static void sendMessages(int clientNumber, String hostname, int port, String messageBase) {
         try (Socket socket = new Socket(hostname, port)) {
-            processServerCommunication(socket, clientNumber, message);
+            processServerCommunication(socket, clientNumber, messageBase, true);
         } catch (UnknownHostException e) {
             System.err.println("Server not found: " + e.getMessage());
         } catch (IOException e) {
@@ -51,18 +56,36 @@ public class Client {
         }
     }
 
-    public static void processServerCommunication(Socket socket, int clientNumber, String message) throws IOException {
-        // Setup IO streams
+    public static void processServerCommunication(Socket socket, int clientNumber, String messageBase,
+            boolean simulateDelay) throws IOException {
         PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
         BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        // Requirement #2: Send message with Client number
-        String clientMessage = "Client #" + clientNumber + ": " + message;
-        output.println(clientMessage);
-        System.out.println("Sent: " + clientMessage);
+        for (int messageCount = 1; messageCount <= MAX_MESSAGES; messageCount++) {
+            if (simulateDelay) {
+                sleep(TimeUnit.SECONDS, 5);
+            }
 
-        // Requirement #3: Receive and display
-        String response = input.readLine();
-        System.out.println("Received from Server: " + response);
+            // Requirement #2: Send message with Client number
+            String clientMessage = "Client #" + clientNumber + ": " + messageBase + " " + messageCount;
+            output.println(clientMessage);
+            System.out.println("Sent: " + clientMessage);
+
+            // Requirement #3: Receive and display
+            String response = input.readLine();
+            if (response == null) {
+                System.out.println("Server disconnected");
+                break;
+            }
+            System.out.println("Received from Server: " + response);
+        }
+    }
+
+    public static void sleep(TimeUnit unit, int ms) {
+        try {
+            Thread.sleep(unit.toMillis(ms));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
