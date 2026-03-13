@@ -22,14 +22,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
     Server.java Class that creates a socket connection to the client 
     and sends a message to the client.
     
-    Design Requirements:
-    1. Establish Socket connection to client
-    2. Receive data from the client with client number and a message
-    3. Send back original message with timestamp to the client.
-    4. Connection closes automatically
-    5. Must handle more than one client
-    6. Must handle common errors 
-
+    Design Requirements (HW3 Rubric):
+    1. File access - server side (Implemented via readLogFile/appendToFile and rwLock)
+    2. File access - Multiple clients (Handled via ReentrantReadWriteLock for safe concurrent access)
+    3. Testing and results (Server creates/updates server.log transparently)
 */
 public class Server {
 
@@ -94,7 +90,7 @@ class ClientHandler extends Thread {
         if (parts.length < 1) {
             return "Invalid message format";
         }
-        
+
         String command = parts[0];
 
         if (command.equals("READ")) {
@@ -117,8 +113,9 @@ class ClientHandler extends Thread {
         }
     }
 
+    // HW3 Rubric: READ File access
     private static String readLogFile() {
-        rwLock.readLock().lock();
+        rwLock.readLock().lock(); // HW3 Rubric: File access - Multiple clients (Thread-safe reads)
         try {
             File file = new File(LOG_FILE);
             initalizeLog(file);
@@ -141,8 +138,9 @@ class ClientHandler extends Thread {
         }
     }
 
+    // HW3 Rubric: WRITE File access
     private static String appendToFile(String message) {
-        rwLock.writeLock().lock();
+        rwLock.writeLock().lock(); // HW3 Rubric: File access - Multiple clients (Thread-safe exclusive writes)
         try {
             File file = new File(LOG_FILE);
             initalizeLog(file);

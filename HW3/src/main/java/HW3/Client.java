@@ -19,13 +19,10 @@ import java.util.HashSet;
     Client.java Class that creates a socket connection to the server 
     and sends a message to the server.
 
-    Design Requirements:
-    1. Client number generation
-    2. Send message with Client number
-    3. Receive and display message from server
-    4. Connection closes automatically via try-with-resources
-    5. Must handle common errors
-    
+    Design Requirements (HW3 Rubric):
+    1. File access - client side (Implemented via processServerCommunication READ/WRITE)
+    2. File access - Multiple clients (Handled via simulation script & concurrency locks)
+    3. Testing and results (Client output logged, integration tests written)
 */
 public class Client {
     static final int MAX_MESSAGES = 100;
@@ -75,13 +72,13 @@ public class Client {
                 sleep(TimeUnit.SECONDS, 1);
             }
 
-            // Requirement #2: Send message with Client number
+            // HW3 Rubric: File access - client side
             String messageBaseLoop = randomMessage();
             String clientMessage;
             if (messageBaseLoop.equals("READ")) {
-                clientMessage = "READ";
+                clientMessage = "READ"; // Client requests to read the file
             } else {
-                clientMessage = messageBaseLoop + " from Client #" + clientNumber;
+                clientMessage = messageBaseLoop + " from Client #" + clientNumber; // Client modifies the file
             }
             output.println(clientMessage);
             System.out.println("Client #" + clientNumber + " sent: " + clientMessage);
