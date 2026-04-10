@@ -26,8 +26,6 @@ Organize your repository clearly so the grader can see your methodology:
 
 ## 2. Technical Architecture (AWS)
 
-
-
 The workflow for your cloud setup should follow these steps:
 1.  **Build:** Develop your app locally and test with `docker run`.
 2.  **Ship:** Create an **Amazon ECR** repository and push your image using the AWS CLI.
@@ -71,3 +69,37 @@ AWS gives you **500MB** of free ECR storage and a limited amount of Fargate usag
 > **Note:** If you are building on a previous assignment, ensure you highlight the transition from "Running a script" to "Containerizing a service."
 
 Would you like a specific code template for a simple "Hello World" app in a particular language (e.g., Python or Node.js) to get your container started?
+
+
+
+## Grading Rubric 
+
+Criteria 	Ratings 	Pts
+This criterion is linked to a Learning Outcome Summary of the experiment
+	
+	
+5 pts
+This criterion is linked to a Learning Outcome Methodology used
+	
+	
+5 pts
+This criterion is linked to a Learning Outcome Challenges, limitations, future work
+	
+	
+5 pts
+This criterion is linked to a Learning Outcome Developed code and expirement
+Organized setup, all files included, comments added throughout the code. Experiment setup, deployment.
+	
+	
+20 pts
+This criterion is linked to a Learning Outcome Overall writeup organization
+organized work, clear sections, not too short and not too long with enough visuals.
+	
+	
+5 pts
+This criterion is linked to a Learning Outcome Results and analysis
+Explaining results, analysis of results and providing enough information in the report.
+	
+	
+10 pts
+Total Points: 50
